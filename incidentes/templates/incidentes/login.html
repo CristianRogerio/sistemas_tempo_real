@@ -1,0 +1,48 @@
+
+  {% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Sistemas em Tempo Real - Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'incidentes/css/style.css' %}">
+
+  </head>
+
+  <body class="text-center">
+    <form class="form-signin" method="POST">
+      {% csrf_token %}
+      
+      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" 
+           alt="" width="80" height="80">
+
+      <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+
+      <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+
+      <input type="password" name="password" class="form-control" placeholder="Password" required>
+
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Lembrar de mim
+        </label>
+      </div>
+
+      {% if error %}
+      <p class="text-danger mt-3">{{ error }}</p>
+      {% endif %}
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit">
+        Login
+      </button>
+
+      <p class="mt-5 mb-3 text-muted">&copy; 2025 Sistemas de Tempo Real - UNILAGO</p>
+    </form>
+  </body>
+</html>
+
