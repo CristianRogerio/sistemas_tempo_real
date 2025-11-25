@@ -3,3 +3,4 @@ gunicorn
 whitenoise
 PyMySQL
 requests
+python-dotenv
