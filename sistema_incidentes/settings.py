@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 load_dotenv()
 
@@ -29,7 +32,11 @@ SECRET_KEY = 'django-insecure-%f(=ai-*6vegsb*q24z*h(8(i#&rx(73fa)%5e4a1nmy06l5)!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['stempreal.crionsolutions.com.br']
+ALLOWED_HOSTS = [
+    'stempreal.crionsolutions.com.br',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition

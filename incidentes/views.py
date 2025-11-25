@@ -22,7 +22,7 @@ def login_view(request):
             # Login OK → limpa tentativas antigas
             LoginAttempt.objects.filter(username=username).delete()
             login(request, user)
-            return redirect("/dashboard/")
+            return redirect("/admin/")
         else:
             # Registrar tentativa de falha
             LoginAttempt.objects.create(username=username, ip=ip)
