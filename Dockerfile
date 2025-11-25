@@ -1,37 +1,29 @@
-# ========================================
-# Base: Python
-# ========================================
-FROM python:3.11-slim
+# 1. Base Python
+FROM python:3.12-slim
 
-# Evita mensagens interativas
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Atualiza o sistema e instala dependências úteis
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    default-libmysqlclient-dev \
-    pkg-config \
-    && rm -rf /var/lib/apt/lists/*
-
-# Cria diretório de trabalho
+# 2. Pasta do app
 WORKDIR /app
 
-# Copia os requisitos
-COPY requirements.txt /app/
+# 3. Instalar dependências do sistema
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Instala dependências Python
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# 4. Copiar requirements
+COPY requirements.txt .
 
-# Copia o código para o container
-COPY . /app/
+# 5. Instalar libs Python
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Coleta arquivos estáticos (STATIC_ROOT)
+# 6. Copiar projeto
+COPY . .
+
+# 7. Coletar arquivos estáticos
 RUN python manage.py collectstatic --noinput
 
-# Exposição da porta (Collfy detecta automaticamente)
+# 8. Expor porta
 EXPOSE 8000
 
-# Entrypoint com Gunicorn
-CMD ["gunicorn", "incidentes.wsgi:application", "--bind", "0.0.0.0:8000"]
+# 9. Comando final
+CMD ["gunicorn", "sistema_incidentes.wsgi:application", "-b", "0.0.0.0:8000"]
