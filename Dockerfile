@@ -19,13 +19,18 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 6. Copiar projeto
 COPY . .
 
+# 7. Criar pasta de arquivos estáticos
 RUN mkdir -p /app/staticfiles
 
-# 7. Coletar arquivos estáticos
+# 8. Coletar arquivos estáticos
 RUN python manage.py collectstatic --noinput
 
-# 8. Expor porta
+# 9. Copiar entrypoint
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# 10. Expor porta
 EXPOSE 8000
 
-# 9. Comando final
-CMD ["gunicorn", "sistema_incidentes.wsgi:application", "-b", "0.0.0.0:8000"]
+# 11. Comando final: usar entrypoint que roda migrate + Gunicorn
+CMD ["/app/entrypoint.sh"]
